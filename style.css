@@ -9,6 +9,7 @@ body {
     background-color: #030712;
     color: #e5e7eb;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -163,3 +164,26 @@ body::before {
     pointer-events: none;
     border: 1px solid rgba(255,255,255,0.2);
 }
+
+.dashboard-btn {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    color: #00f2fe;
+    text-decoration: none;
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    transition: 0.3s;
+    background: rgba(0, 242, 254, 0.05);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+}
+.dashboard-btn:hover {
+    background: rgba(0, 242, 254, 0.15);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+    transform: translateY(-2px);
+}
+
