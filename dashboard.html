@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم - Nano Technology</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #030712; color: #fff; font-family: 'Cairo', sans-serif; padding: 40px; margin: 0; background-image: radial-gradient(circle at 15% 50%, rgba(0, 242, 254, 0.05), transparent 25%), radial-gradient(circle at 85% 30%, rgba(79, 172, 254, 0.05), transparent 25%); min-height: 100vh;}
+        .container { max-width: 1000px; margin: 0 auto; background: rgba(16, 24, 39, 0.6); border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(16px); }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 242, 254, 0.3); padding-bottom: 15px; margin-bottom: 30px; }
+        h2 { color: #4facfe; margin: 0; text-shadow: 0 0 10px rgba(79, 172, 254, 0.2); font-weight: 700; }
+        .header-buttons { display: flex; gap: 10px; }
+        .btn-refresh { padding: 8px 15px; background: #00f2fe; color: #000; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; font-family: 'Cairo'; transition: 0.3s; }
+        .btn-refresh:hover { background: #4facfe; box-shadow: 0 0 10px rgba(0,242,254,0.4); }
+        .btn-logout { padding: 8px 15px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 5px; cursor: pointer; font-family: 'Cairo'; transition: 0.3s; }
+        .btn-logout:hover { background: #ef4444; border-color: #ef4444; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { text-align: right; padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        th { color: #00f2fe; font-size: 1.1rem; }
+        tbody tr { transition: 0.2s; }
+        tbody tr:hover { background: rgba(0, 242, 254, 0.05); }
+        .status-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-left: 10px; }
+        .dot-red { background-color: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+        .dot-green { background-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+        .links { display: flex; gap: 10px; }
+        .links a { color: #00f2fe; text-decoration: none; padding: 6px 12px; border: 1px solid #00f2fe; border-radius: 6px; font-size: 0.9rem; transition: 0.3s; }
+        .links a:hover { background: rgba(0,242,254,0.1); }
+    </style>
+</head>
+<body>
+    <script>
+        if(sessionStorage.getItem('admin_auth') !== '1') {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <div class="container">
+        <div class="header">
+            <h2>لوحة المنظمين - Nano Technology</h2>
+            <div class="header-buttons">
+                <button class="btn-refresh" onclick="renderTable()">تحديث البيانات 🔄</button>
+                <button class="btn-logout" onclick="logout()">تسجيل خروج</button>
+            </div>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>توضيح الحالة</th>
+                    <th>إسم الحاضر</th>
+                    <th>نوع التذكرة</th>
+                    <th>رابط الفحص</th>
+                </tr>
+            </thead>
+            <tbody id="vipTableBody">
+                <!-- Data populated with JS -->
+            </tbody>
+        </table>
+    </div>
+    <div class="team-signature" style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: #9ca3af; letter-spacing: 1.5px; text-transform: uppercase;">
+        Powered by <strong style="color: #00f2fe; text-shadow: 0 0 5px rgba(0,242,254,0.5);">New Vision</strong>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+        async function renderTable() {
+            const tbody = document.getElementById('vipTableBody');
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">جاري تحميل البيانات من جوجل...</td></tr>';
+            const vips = await getVIPs();
+            tbody.innerHTML = '';
+            
+            if(vips.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #ff4d4d;">لم يتم العثور على بيانات، تأكد من إعداد الشيت بنجاح.</td></tr>';
+                return;
+            }
+
+            vips.forEach(vip => {
+                const tr = document.createElement('tr');
+                const tcolor = vip.attended ? 'color: #27ae60;' : 'color: #ff4d4d;';
+                tr.innerHTML = `
+                    <td style="${tcolor}; font-weight: bold;">
+                        <span class="status-dot ${vip.attended ? 'dot-green' : 'dot-red'}"></span>
+                        ${vip.attended ? 'حاضر' : 'لم يحضر'}
+                    </td>
+                    <td style="${tcolor}; font-size: 1.2rem; font-weight: bold;">${vip.name}</td>
+                    <td>${vip.type}</td>
+                    <td class="links">
+                        <a href="index.html?id=${vip.id}" target="_blank">فتح التذكرة</a>
+                        ${vip.phone ? `<a href="https://wa.me/${vip.phone}?text=${encodeURIComponent('Welcome ' + vip.name + ' to Nano Technology Conference 🚀\nYour VIP ticket is ready:\n\n' + window.location.origin + window.location.pathname.replace('dashboard.html', '') + 'index.html?id=' + vip.id)}" target="_blank" style="background:#25D366; color:#fff; border-color:#25D366;"><i class="fa fa-whatsapp"></i> واتساب</a>` : ''}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        renderTable();
+
+        function logout() {
+            sessionStorage.removeItem('admin_auth');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل مسؤولي - Nano Technology Conference</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #030712; color: #fff; font-family: 'Cairo', sans-serif;
+            display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;
+            background-image: radial-gradient(circle at 15% 50%, rgba(0, 242, 254, 0.08), transparent 25%), radial-gradient(circle at 85% 30%, rgba(79, 172, 254, 0.08), transparent 25%);
+        }
+        .login-box {
+            background: rgba(16, 24, 39, 0.6); padding: 40px; border-radius: 15px; text-align: center;
+            border: 1px solid rgba(0, 242, 254, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 242, 254, 0.05);
+            backdrop-filter: blur(16px);
+            width: 100%; max-width: 400px;
+        }
+        h2 { color: #4facfe; margin-bottom: 20px; text-shadow: 0 0 10px rgba(79, 172, 254, 0.3); }
+        input {
+            padding: 15px; width: 80%; border-radius: 8px; border: 1px solid rgba(0, 242, 254, 0.3);
+            margin: 20px 0; background: #050b14; color: #fff; text-align: center; font-family: 'Cairo';
+            outline: none; font-size: 1.1rem;
+        }
+        input:focus { border-color: #00f2fe; box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); }
+        button {
+            padding: 12px 30px; background: linear-gradient(135deg, #00f2fe, #4facfe);
+            color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer;
+            font-family: 'Cairo'; font-size: 1.1rem; width: 80%; transition: 0.3s;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4); }
+        .error { color: #ff4d4d; margin-top: 15px; display: none; background: rgba(255, 0, 0, 0.1); padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>بوابة Nano Tech</h2>
+        <input type="password" id="passInput" placeholder="أدخل كلمة المرور (NEWVISION26)">
+        <br>
+        <button onclick="login()">دخول</button>
+        <p class="error" id="errorMsg">كلمة المرور غير صحيحة</p>
+    </div>
+    <div class="team-signature" style="position: absolute; bottom: 20px; font-size: 0.9rem; color: #9ca3af; letter-spacing: 1.5px; text-transform: uppercase;">
+        Organized by <strong style="color: #00f2fe; text-shadow: 0 0 5px rgba(0,242,254,0.5);">New Vision</strong>
+    </div>
+    <script>
+        function login() {
+            const val = document.getElementById('passInput').value;
+            if(val === 'NEWVISION26') {
+                sessionStorage.setItem('admin_auth', '1');
+                window.location.href = 'dashboard.html';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+        document.getElementById('passInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') login();
+        });
+    </script>
+</body>
+</html>

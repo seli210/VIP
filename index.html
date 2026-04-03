@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تذاكر VIP - Nano Technology Conference</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container" id="ticketContainer">
+        <!-- Default ticket for preview or errors -->
+        <h3 id="errorMsg" style="text-align: center; color: #ff4d4d; display: none;">لا توجد تذكرة بهذا المعرف</h3>
+        <div class="ticket" id="vipTicket" style="display: none;">
+            <div class="ticket-header">
+                <h2 dir="ltr" style="text-align: right;">Nano Technology Conference</h2>
+                <span class="vip-badge">VIP</span>
+            </div>
+            <div class="ticket-body">
+                <div class="info">
+                    <p class="label">اسم الحاضر</p>
+                    <h3 class="name" id="vipName">...</h3>
+                </div>
+                <div class="info">
+                    <p class="label">نوع التذكرة</p>
+                    <h3 id="vipType">...</h3>
+                </div>
+            </div>
+            <div class="ticket-footer">
+                <button class="btn-attend" id="attendBtn">تسجيل الحضور</button>
+            </div>
+        </div>
+    </div>
+    <div class="team-signature" style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: #9ca3af; letter-spacing: 1.5px; text-transform: uppercase;">
+        Powered by <strong style="color: #00f2fe; text-shadow: 0 0 5px rgba(0,242,254,0.5);">New Vision</strong>
+    </div>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
